@@ -1,25 +1,47 @@
+import React from "react";
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>District Script Writer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  <script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
-  }
+// Se as imagens estão no public/distritos/
+const imagens = [
+  "/distritos/distrito1.png",
+  "/distritos/distrito2.png",
+  "/distritos/distrito3.png",
+  "/distritos/distrito4.png",
+  "/distritos/distrito5.png",
+  "/distritos/distrito6.png",
+  "/distritos/distrito7.png",
+  "/distritos/distrito8.png",
+  "/distritos/distrito9.png",
+  "/distritos/distrito10.png",
+  "/distritos/distrito11.png",
+  "/distritos/distrito12.png",
+];
+
+const radius = 250; // distância do centro
+
+export default function DistrictStar() {
+  const center = 300; // centro do container
+
+  return (
+    <div className="relative w-[600px] h-[600px] mx-auto my-10">
+      {imagens.map((src, i) => {
+        const angle = (i / 12) * 2 * Math.PI;
+        const x = center + radius * Math.sin(angle) - 50; // 50 = metade da largura da imagem
+        const y = center - radius * Math.cos(angle) - 50;
+
+        return (
+          <div
+            key={i}
+            className="absolute transition-transform duration-500 hover:scale-125 hover:z-10"
+            style={{ left: `${x}px`, top: `${y}px` }}
+          >
+            <img
+              src={src}
+              alt={`Distrito ${i + 1}`}
+              className="w-[100px] h-[100px] rounded-full border-2 border-green-500 shadow-lg shadow-green-500/50"
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
 }
-</script>
-</head>
-  <body class="bg-gray-900">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
-</html>
