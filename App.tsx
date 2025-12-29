@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import StarLayout from './components/StarLayout';
 import ScriptEditor from './components/ScriptEditor';
@@ -15,7 +14,7 @@ const App: React.FC = () => {
     if (!prompt || isLoading) return;
     setIsLoading(true);
     setError(null);
-    setGeneratedScript('');
+    setGeneratedScript(''); // Clear previous script on new submission
     try {
       const script = await generateScript(prompt);
       setGeneratedScript(script);
@@ -26,6 +25,10 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   }, [prompt, isLoading]);
+
+  const clearScript = useCallback(() => {
+    setGeneratedScript('');
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-gray-200 font-sans p-4 sm:p-6 lg:p-8 overflow-hidden">
@@ -50,7 +53,7 @@ const App: React.FC = () => {
               isLoading={isLoading}
             />
             {error && <div className="bg-red-900/50 border border-red-700 text-red-300 p-4 rounded-lg">{error}</div>}
-            <GeneratedScript script={generatedScript} isLoading={isLoading} />
+            <GeneratedScript script={generatedScript} isLoading={isLoading} onClear={clearScript} />
           </div>
         </div>
       </main>

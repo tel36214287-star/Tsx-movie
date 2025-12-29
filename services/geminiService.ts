@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 if (!process.env.API_KEY) {
@@ -27,5 +26,23 @@ export async function generateScript(prompt: string): Promise<string> {
   } catch (error) {
     console.error("Error generating script with Gemini API:", error);
     throw new Error("Failed to generate script. The request to the AI service failed.");
+  }
+}
+
+export async function translateText(text: string, targetLanguage: string = 'Português (Brasil)'): Promise<string> {
+  try {
+    const translatePrompt = `Translate the following text into ${targetLanguage}. Provide only the translated text, with no additional commentary or framing.
+
+    TEXT TO TRANSLATE:
+    "${text}"
+    `;
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: translatePrompt,
+    });
+    return response.text;
+  } catch (error) {
+    console.error(`Error translating text to ${targetLanguage} with Gemini API:`, error);
+    throw new Error("Failed to translate text. The request to the AI service failed.");
   }
 }
